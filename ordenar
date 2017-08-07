@@ -12,7 +12,7 @@ algoritmos_validos = ['quicksort', 'x', 'y']
 def main():
     parser = argparse.ArgumentParser()
     parser.add_argument('algorithm', help='algorithm to be used')
-    parser.add_argument('infile', nargs='?', default='input.txt', help='input file')
+    parser.add_argument('infile', nargs='?', default='data/input.txt', help='input file')
     parser.add_argument('outfile', nargs='?', default='output.txt', help='output file')
     
     if len(sys.argv[1:]) == 0: usage(parser)
