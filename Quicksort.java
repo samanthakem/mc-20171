@@ -6,6 +6,8 @@ import java.util.List;
 import java.util.concurrent.TimeUnit;
 
 public class Quicksort {
+	
+	private final static int VERSION = 1;
     
     public final static void main(String[] args) {
         String infile = args[0];
@@ -35,7 +37,7 @@ public class Quicksort {
 		quickSort(values, low, high);
 		long elapsed = System.currentTimeMillis() - start;
 		long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed);
-		System.out.format("%d", seconds);
+		System.out.format("%d,%d", seconds, VERSION);
     }
 
     public static void quickSort(int[] arr, int low, int high) {

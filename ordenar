@@ -36,7 +36,9 @@ def execute(java_file, input_file, output_file, algoritmo):
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate()
     with open(output_file, "a") as myfile:
-        result_format = 'Algoritmo: {0}\nTempo de Execução: {1} seconds\nArquivo de Entrada: {2}\nVersão: {3}\n\n\n'.format(algoritmo, stdout, input_file, 'two')
+        segundos = stdout.split(",")[0]
+        versao = stdout.split(",")[1]
+        result_format = 'Algoritmo: {0}\nTempo de Execução: {1} seconds\nArquivo de Entrada: {2}\nVersão: {3}\n\n\n'.format(algoritmo, segundos, input_file, versao)
         myfile.write(result_format)
 
 def usage(parser):
