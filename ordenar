@@ -1,0 +1,47 @@
+#!/usr/bin/env python
+# -*- coding: utf-8 -*- 
+
+import argparse
+import sys
+import os.path, subprocess
+from subprocess import STDOUT,PIPE
+import pickle
+
+algoritmos_validos = ['quicksort', 'x', 'y']
+
+def main():
+    parser = argparse.ArgumentParser()
+    parser.add_argument('algorithm', help='algorithm to be used')
+    parser.add_argument('infile', nargs='?', default='input.txt', help='input file')
+    parser.add_argument('outfile', nargs='?', default='output.txt', help='output file')
+    
+    if len(sys.argv[1:]) == 0: usage(parser)
+
+    args = parser.parse_args()
+    if args.algorithm:
+        algoritmo = args.algorithm.lower()
+        if algoritmo in algoritmos_validos:
+            if algoritmo == "quicksort":
+                compile("Quicksort.java")
+                execute("Quicksort.java", args.infile, args.outfile, algoritmo)
+
+        else: print "Invalid algorithm"
+
+def compile(java_file):
+    subprocess.check_call(['javac', java_file])
+
+def execute(java_file, input_file, output_file, algoritmo):
+    java_class,ext = os.path.splitext(java_file)
+    cmd = ['java', java_class, input_file]
+    proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
+    stdout,stderr = proc.communicate()
+    with open(output_file, "a") as myfile:
+        result_format = 'Algoritmo: {0}\nTempo de Execução: {1} seconds\nArquivo de Entrada: {2}\nVersão: {3}\n\n\n'.format(algoritmo, stdout, input_file, 'two')
+        myfile.write(result_format)
+
+def usage(parser):
+    parser.print_help()
+    sys.exit()
+
+if __name__ == "__main__":
+    main()
