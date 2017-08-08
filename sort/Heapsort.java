@@ -32,7 +32,6 @@ public class Heapsort {
 	        	values[i] = x.get(i); 
 	        }
 
-	        
 			long start = System.currentTimeMillis();
 			heapSort(values);
 			long elapsed = System.currentTimeMillis() - start;

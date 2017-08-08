@@ -7,7 +7,7 @@ import os.path, subprocess
 from subprocess import STDOUT,PIPE
 import pickle
 
-algoritmos_validos = ['quicksort', 'x', 'y']
+algoritmos_validos = ['quicksort', 'mergesort', 'heapsort']
 
 def main():
     parser = argparse.ArgumentParser()
@@ -22,16 +22,23 @@ def main():
         algoritmo = args.algorithm.lower()
         if algoritmo in algoritmos_validos:
             if algoritmo == "quicksort":
-                compile("Quicksort.java")
-                execute("Quicksort.java", args.infile, args.outfile, algoritmo)
-
+                compile("sort/Quicksort.java")
+                execute("sort/Quicksort.java", args.infile, args.outfile, algoritmo)
+            elif algoritmo == "mergesort":
+                compile("sort/Mergesort.java")
+                execute("sort/Mergesort.java", args.infile, args.outfile, algoritmo)
+            else:
+                compile("sort/Heapsort.java")
+                execute("sort/Heapsort.java", args.infile, args.outfile, algoritmo)
         else: print "Invalid algorithm"
 
 def compile(java_file):
+    print "Compiling " + java_file
     subprocess.check_call(['javac', java_file])
 
 def execute(java_file, input_file, output_file, algoritmo):
-    java_class,ext = os.path.splitext(java_file)
+    java_class, ext = os.path.splitext(java_file)
+    print "Executing " + java_class
     cmd = ['java', java_class, input_file]
     proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
     stdout,stderr = proc.communicate()
