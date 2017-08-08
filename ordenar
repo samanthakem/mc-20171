@@ -29,12 +29,10 @@ def verify_get_args():
     parser.add_argument('algorithm', help='algorithm to be used')
     parser.add_argument('input', nargs='?', default='data/input.txt', help='input file')
     parser.add_argument('output', nargs='?', default='output.txt', help='output file')
-    if len(sys.argv[1:]) == 0: usage(parser)
+    if len(sys.argv[1:]) == 0: 
+        print "You must inform a sorting method"
+        sys.exit()
     return parser.parse_args()
-
-def usage(parser):
-    parser.print_help()
-    sys.exit()
 
 if __name__ == "__main__":
     args = verify_get_args()
