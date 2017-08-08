@@ -41,16 +41,15 @@ public class Main {
 		long start = System.currentTimeMillis();
 		sortable.sort(array);
 		long elapsed = System.currentTimeMillis() - start;
-		long seconds = TimeUnit.MILLISECONDS.toSeconds(elapsed);
 		
-		System.out.println("Running time: " + seconds + " seconds");
+		System.out.println("Running time: " + elapsed + " ms");
 		
 		try(FileWriter fw = new FileWriter(outputFile, true);
 	            BufferedWriter bw = new BufferedWriter(fw);
 	            PrintWriter writer = new PrintWriter(bw))
 	        {
 				writer.write("Sort method: " + sortMethod + ".\n");
-				writer.write("Run time: " + seconds + " seconds.\n");
+				writer.write("Run time: " + elapsed + " ms.\n");
 				
 				Date date = Calendar.getInstance().getTime();
 			    SimpleDateFormat sdf = new SimpleDateFormat("yyyyMMdd.hhmmss");
