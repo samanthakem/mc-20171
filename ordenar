@@ -3,54 +3,39 @@
 
 import argparse
 import sys
-import os.path, subprocess
-from subprocess import STDOUT,PIPE
-import pickle
+import os
 
-algoritmos_validos = ['quicksort', 'mergesort', 'heapsort']
+valid_algorithms = ['quicksort', 'mergesort', 'heapsort']
 
-def main():
+def main(args):
+    algorithm = args.algorithm
+    if algorithm and algorithm.lower() in valid_algorithms:
+        compile_all()
+        execute(algorithm.lower(), args.input, args.output)
+    else:
+        print "Invalid algorithm. It can be 'mergesort', 'heapsort' or 'quicksort'"
+
+def compile_all():
+    os.system("javac src/*.java")
+
+def execute(algorithm, input, output):
+    print 'Selected method: ' + algorithm
+    print 'Sorting...'
+    command = "java src/Main {0} {1} {2}".format(algorithm, input, output)
+    os.system(command)
+
+def verify_get_args():
     parser = argparse.ArgumentParser()
     parser.add_argument('algorithm', help='algorithm to be used')
-    parser.add_argument('infile', nargs='?', default='data/input.txt', help='input file')
-    parser.add_argument('outfile', nargs='?', default='output.txt', help='output file')
-    
+    parser.add_argument('input', nargs='?', default='data/input.txt', help='input file')
+    parser.add_argument('output', nargs='?', default='output.txt', help='output file')
     if len(sys.argv[1:]) == 0: usage(parser)
-
-    args = parser.parse_args()
-    if args.algorithm:
-        algoritmo = args.algorithm.lower()
-        if algoritmo in algoritmos_validos:
-            if algoritmo == "quicksort":
-                compile("sort/Quicksort.java")
-                execute("sort/Quicksort.java", args.infile, args.outfile, algoritmo)
-            elif algoritmo == "mergesort":
-                compile("sort/Mergesort.java")
-                execute("sort/Mergesort.java", args.infile, args.outfile, algoritmo)
-            else:
-                compile("sort/Heapsort.java")
-                execute("sort/Heapsort.java", args.infile, args.outfile, algoritmo)
-        else: print "Invalid algorithm"
-
-def compile(java_file):
-    print "Compiling " + java_file
-    subprocess.check_call(['javac', java_file])
-
-def execute(java_file, input_file, output_file, algoritmo):
-    java_class, ext = os.path.splitext(java_file)
-    print "Executing " + java_class
-    cmd = ['java', java_class, input_file]
-    proc = subprocess.Popen(cmd, stdin=PIPE, stdout=PIPE, stderr=STDOUT)
-    stdout,stderr = proc.communicate()
-    with open(output_file, "a") as myfile:
-        segundos = stdout.split(",")[0]
-        versao = stdout.split(",")[1]
-        result_format = 'Algoritmo: {0}\nTempo de Execução: {1} seconds\nArquivo de Entrada: {2}\nVersão: {3}\n\n\n'.format(algoritmo, segundos, input_file, versao)
-        myfile.write(result_format)
+    return parser.parse_args()
 
 def usage(parser):
     parser.print_help()
     sys.exit()
 
 if __name__ == "__main__":
-    main()
+    args = verify_get_args()
+    main(args)
