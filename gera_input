@@ -21,14 +21,14 @@ def main(args):
     tamanho_value = 100000 if tamanho == "pequeno" else 2000000
 
     if estado == "completo":
-        for i in range(0, tamanho_value, range_value):
+        for i in range(0, (tamanho_value*range_value), range_value):
             f.write(str(i) + "\n")
     elif estado == "parcial":
-        for i in range(tamanho_value/3, -1, -range_value):
+        for i in range((tamanho_value/3)*range_value, -1, -range_value):
             f.write(str(i) + "\n")
-        for i in range(2*(tamanho_value/3), tamanho_value, range_value):
+        for i in range(range_value*2*(tamanho_value/3), range_value*tamanho_value, range_value):
             f.write(str(i) + "\n")
-        for i in range(tamanho_value/3 + 1, 2*(tamanho_value/3), range_value):
+        for i in range(range_value*(tamanho_value/3) + 1, range_value*2*(tamanho_value/3), range_value):
             f.write(str(i) + "\n")
     else:
         for i in range(tamanho_value):

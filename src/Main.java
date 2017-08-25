@@ -49,6 +49,7 @@ public class Main {
 	            PrintWriter writer = new PrintWriter(bw))
 	        {
 				writer.write("Sort method: " + sortMethod + ".\n");
+				writer.write("File name: " + inputFile + "\n");
 				writer.write("Run time: " + elapsed + " ms.\n");
 				
 				Date date = Calendar.getInstance().getTime();
